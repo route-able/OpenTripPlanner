@@ -1178,6 +1178,14 @@ public class OpenStreetMapModule implements GraphBuilderModule {
 
             Optional.ofNullable(way.getSurface()).ifPresent(street::setSurface);
             Optional.ofNullable(way.getSmoothness()).ifPresent(street::setSmoothness);
+            Optional.ofNullable(way.getTracktype()).ifPresent(trackType -> {
+                if (trackType.startsWith("grade")) {
+                    int tracktypeGrade = trackType.charAt(5) - '0';
+                    if (tracktypeGrade > 0 && tracktypeGrade < 6) {
+                        street.setTracktypeGrade(tracktypeGrade);
+                    }
+                }
+            });
 
             /* TODO: This should probably generalized somehow? */
             if (!ignoreWheelchairAccessibility

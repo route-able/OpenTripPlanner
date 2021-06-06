@@ -27,6 +27,7 @@ public class McCostParams {
     private final double waitReluctanceFactor;
     private final TObjectDoubleMap<String> surfaceReluctanceFactors;
     private final OSMSmoothness minSmoothness;
+    private final Integer maxTracktypeGrade;
 
     /**
      * Default constructor defines default values. These defaults are
@@ -40,6 +41,7 @@ public class McCostParams {
         this.waitReluctanceFactor = 1.0;
         this.surfaceReluctanceFactors = new TObjectDoubleHashMap<>(0);
         this.minSmoothness = null;
+        this.maxTracktypeGrade = null;
     }
 
     McCostParams(McCostParamsBuilder builder) {
@@ -50,6 +52,7 @@ public class McCostParams {
         this.waitReluctanceFactor = builder.waitReluctanceFactor();
         this.surfaceReluctanceFactors = TCollections.unmodifiableMap(builder.surfaceReluctanceFactors());
         this.minSmoothness = builder.minSmoothness();
+        this.maxTracktypeGrade = builder.maxTracktypeGrade();
     }
 
     public int boardCost() {
@@ -96,6 +99,10 @@ public class McCostParams {
         return minSmoothness;
     }
 
+    public Integer maxTracktypeGrade() {
+        return maxTracktypeGrade;
+    }
+
     @Override
     public String toString() {
         return "McCostParams{" +
@@ -105,6 +112,7 @@ public class McCostParams {
                 ", waitReluctanceFactor=" + waitReluctanceFactor +
                 ", surfaceReluctanceFactors=" + surfaceReluctanceFactors +
                 ", minSmoothness=" + minSmoothness +
+                ", maxTracktypeGrade=" + maxTracktypeGrade +
                 '}';
     }
 
@@ -117,12 +125,13 @@ public class McCostParams {
                 transferCost == that.transferCost &&
                 surfaceReluctanceFactors.equals(that.surfaceReluctanceFactors) &&
                 Objects.equals(minSmoothness, that.minSmoothness) &&
+                Objects.equals(maxTracktypeGrade, that.maxTracktypeGrade) &&
                 Double.compare(that.walkReluctanceFactor, walkReluctanceFactor) == 0 &&
                 Double.compare(that.waitReluctanceFactor, waitReluctanceFactor) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(boardCost, transferCost, walkReluctanceFactor, waitReluctanceFactor, minSmoothness, surfaceReluctanceFactors);
+        return Objects.hash(boardCost, transferCost, walkReluctanceFactor, waitReluctanceFactor, minSmoothness, maxTracktypeGrade, surfaceReluctanceFactors);
     }
 }

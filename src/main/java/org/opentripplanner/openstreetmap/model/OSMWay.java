@@ -145,4 +145,13 @@ public class OSMWay extends OSMWithTags {
     public String getSmoothness() {
         return getTag("smoothness");
     }
+
+    /**
+     * The possible tracktype values' documentation can be <a
+     * href="https://wiki.openstreetmap.org/wiki/Key:tracktype">seen here</a>.
+     * @return The value of the {@code tracktype} tag of this way.
+     */
+    public String getTracktype() {
+        return getTag("tracktype");
+    }
 }

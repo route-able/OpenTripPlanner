@@ -17,6 +17,7 @@ public class McCostParamsBuilder {
     private double waitReluctanceFactor;
     private TObjectDoubleMap<String> surfaceReluctanceFactors;
     private OSMSmoothness minSmoothness;
+    private Integer maxTracktypeGrade;
 
 
     McCostParamsBuilder(McCostParams defaults) {
@@ -27,6 +28,7 @@ public class McCostParamsBuilder {
         this.waitReluctanceFactor = defaults.waitReluctanceFactor();
         this.surfaceReluctanceFactors = defaults.surfaceReluctanceFactors();
         this.minSmoothness = defaults.minSmoothness();
+        this.maxTracktypeGrade = defaults.maxTracktypeGrade();
     }
 
     public int boardCost() {
@@ -89,6 +91,15 @@ public class McCostParamsBuilder {
 
     public McCostParamsBuilder minSmoothness(OSMSmoothness minSmoothness) {
         this.minSmoothness = minSmoothness;
+        return this;
+    }
+
+    public Integer maxTracktypeGrade() {
+        return maxTracktypeGrade;
+    }
+
+    public McCostParamsBuilder maxTracktypeGrade(Integer maxTrackTypeGrade) {
+        this.maxTracktypeGrade = maxTrackTypeGrade;
         return this;
     }
 }

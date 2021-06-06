@@ -120,6 +120,7 @@ public class StreetEdge extends Edge implements Cloneable, CarPickupableEdge {
 
     private String surface;
     private OSMSmoothness smoothness;
+    private Integer tracktypeGrade;
 
     public StreetEdge(StreetVertex v1, StreetVertex v2, LineString geometry,
                       I18NString name, double length,
@@ -395,6 +396,9 @@ public class StreetEdge extends Edge implements Cloneable, CarPickupableEdge {
         if (options.minSmoothness != null && options.minSmoothness.compareTo(this.smoothness) > 0) {
             // if the minimum smoothness is higher than the smoothness of this street, we reject
             // we make it very undesirable to take this path
+            weight *= 100;
+        }
+        if (options.maxTracktypeGrade != null && options.maxTracktypeGrade < this.tracktypeGrade) {
             weight *= 100;
         }
 
@@ -766,6 +770,10 @@ public class StreetEdge extends Edge implements Cloneable, CarPickupableEdge {
 
     public void setSmoothness(String smoothnessValue) {
         this.smoothness = OSMSmoothness.parseOrNull(smoothnessValue);
+    }
+
+    public void setTracktypeGrade(Integer grade) {
+        this.tracktypeGrade = grade;
     }
 
     /**

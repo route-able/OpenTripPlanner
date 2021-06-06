@@ -208,6 +208,14 @@ public abstract class RoutingResource {
     @QueryParam("minSmoothness")
     protected String minSmoothness;
 
+    /**
+     * What is the maximum tolerable tracktype (roughness) grade? The allowable tracktype values can be found at
+     * https://wiki.openstreetmap.org/wiki/Key:tracktype. The value to specify here is the number beside
+     * the "grade" prefix, i.e. "grade1" -> 1. It should be a number in the range 1-5.
+     */
+    @QueryParam("maxTracktypeGrade")
+    protected Integer maxTracktypeGrade;
+
     /** The user's walking speed in meters/second. Defaults to approximately 3 MPH. */
     @QueryParam("walkSpeed")
     protected Double walkSpeed;
@@ -722,6 +730,9 @@ public abstract class RoutingResource {
 
         if (minSmoothness != null)
             request.setMinSmoothness(minSmoothness);
+
+        if (maxTracktypeGrade != null)
+            request.setMaxTracktypeGrade(maxTracktypeGrade);
 
         if (walkSpeed != null)
             request.walkSpeed = walkSpeed;

@@ -434,6 +434,8 @@ public class RoutingRequest implements AutoCloseable, Cloneable, Serializable {
 
     public OSMSmoothness minSmoothness;
 
+    public Integer maxTracktypeGrade;
+
     /**
      * This prevents unnecessary transfers by adding a cost for boarding a vehicle. This is in
      * addition to the cost of the transfer(walking) and waiting-time. It is also in addition to
@@ -1340,6 +1342,15 @@ public class RoutingRequest implements AutoCloseable, Cloneable, Serializable {
             this.minSmoothness = OSMSmoothness.parseFrom(minSmoothness);
         } catch (IllegalArgumentException ex) {
             throw new ParameterException(Message.BOGUS_PARAMETER);
+        }
+    }
+
+    public void setMaxTracktypeGrade(Integer maxTracktypeGrade) throws ParameterException {
+        if (maxTracktypeGrade != null) {
+            if (maxTracktypeGrade < 1 || maxTracktypeGrade > 5) {
+                throw new ParameterException(Message.BOGUS_PARAMETER);
+            }
+            this.maxTracktypeGrade = maxTracktypeGrade;
         }
     }
 
