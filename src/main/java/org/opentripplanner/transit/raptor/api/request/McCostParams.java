@@ -5,6 +5,8 @@ import gnu.trove.TCollections;
 import gnu.trove.map.TObjectDoubleMap;
 import gnu.trove.map.hash.TObjectDoubleHashMap;
 import javax.annotation.Nullable;
+
+import org.opentripplanner.openstreetmap.OSMSmoothness;
 import org.opentripplanner.routing.api.request.RoutingRequest;
 
 import java.util.Objects;
@@ -24,6 +26,7 @@ public class McCostParams {
     private final double walkReluctanceFactor;
     private final double waitReluctanceFactor;
     private final TObjectDoubleMap<String> surfaceReluctanceFactors;
+    private final OSMSmoothness minSmoothness;
 
     /**
      * Default constructor defines default values. These defaults are
@@ -36,6 +39,7 @@ public class McCostParams {
         this.walkReluctanceFactor = 4.0;
         this.waitReluctanceFactor = 1.0;
         this.surfaceReluctanceFactors = new TObjectDoubleHashMap<>(0);
+        this.minSmoothness = null;
     }
 
     McCostParams(McCostParamsBuilder builder) {
@@ -45,6 +49,7 @@ public class McCostParams {
         this.walkReluctanceFactor = builder.walkReluctanceFactor();
         this.waitReluctanceFactor = builder.waitReluctanceFactor();
         this.surfaceReluctanceFactors = TCollections.unmodifiableMap(builder.surfaceReluctanceFactors());
+        this.minSmoothness = builder.minSmoothness();
     }
 
     public int boardCost() {
@@ -87,6 +92,10 @@ public class McCostParams {
         return surfaceReluctanceFactors;
     }
 
+    public OSMSmoothness minSmoothness() {
+        return minSmoothness;
+    }
+
     @Override
     public String toString() {
         return "McCostParams{" +
@@ -95,6 +104,7 @@ public class McCostParams {
                 ", transferReluctanceFactor=" + walkReluctanceFactor +
                 ", waitReluctanceFactor=" + waitReluctanceFactor +
                 ", surfaceReluctanceFactors=" + surfaceReluctanceFactors +
+                ", minSmoothness=" + minSmoothness +
                 '}';
     }
 
@@ -106,12 +116,13 @@ public class McCostParams {
         return boardCost == that.boardCost &&
                 transferCost == that.transferCost &&
                 surfaceReluctanceFactors.equals(that.surfaceReluctanceFactors) &&
+                Objects.equals(minSmoothness, that.minSmoothness) &&
                 Double.compare(that.walkReluctanceFactor, walkReluctanceFactor) == 0 &&
                 Double.compare(that.waitReluctanceFactor, waitReluctanceFactor) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(boardCost, transferCost, walkReluctanceFactor, waitReluctanceFactor, surfaceReluctanceFactors);
+        return Objects.hash(boardCost, transferCost, walkReluctanceFactor, waitReluctanceFactor, minSmoothness, surfaceReluctanceFactors);
     }
 }

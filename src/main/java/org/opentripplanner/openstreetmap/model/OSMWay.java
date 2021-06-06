@@ -136,4 +136,13 @@ public class OSMWay extends OSMWithTags {
     public String getSurface() {
         return getTag("surface");
     }
+
+    /**
+     * The possible smoothness values' documentation can be <a
+     * href="https://wiki.openstreetmap.org/wiki/Key:smoothness">seen here</a>.
+     * @return The value of the {@code smoothness} tag of this way.
+     */
+    public String getSmoothness() {
+        return getTag("smoothness");
+    }
 }

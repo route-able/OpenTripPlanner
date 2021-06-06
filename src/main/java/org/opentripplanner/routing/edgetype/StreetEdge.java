@@ -19,6 +19,7 @@ import org.opentripplanner.common.geometry.SphericalDistanceLibrary;
 import org.opentripplanner.common.model.P2;
 import org.opentripplanner.graph_builder.linking.DisposableEdgeCollection;
 import org.opentripplanner.graph_builder.linking.LinkingDirection;
+import org.opentripplanner.openstreetmap.OSMSmoothness;
 import org.opentripplanner.routing.api.request.RoutingRequest;
 import org.opentripplanner.routing.core.State;
 import org.opentripplanner.routing.core.StateEditor;
@@ -118,6 +119,7 @@ public class StreetEdge extends Edge implements Cloneable, CarPickupableEdge {
     private byte outAngle;
 
     private String surface;
+    private OSMSmoothness smoothness;
 
     public StreetEdge(StreetVertex v1, StreetVertex v2, LineString geometry,
                       I18NString name, double length,
@@ -389,6 +391,11 @@ public class StreetEdge extends Edge implements Cloneable, CarPickupableEdge {
                 // only up to one surface can match
                 break;
             }
+        }
+        if (options.minSmoothness != null && options.minSmoothness.compareTo(this.smoothness) > 0) {
+            // if the minimum smoothness is higher than the smoothness of this street, we reject
+            // we make it very undesirable to take this path
+            weight *= 100;
         }
 
         StateEditor s1 = s0.edit(this);
@@ -751,6 +758,14 @@ public class StreetEdge extends Edge implements Cloneable, CarPickupableEdge {
 
     public void setSurface(String surface) {
         this.surface = surface;
+    }
+
+    public OSMSmoothness getSmoothness() {
+        return smoothness;
+    }
+
+    public void setSmoothness(String smoothnessValue) {
+        this.smoothness = OSMSmoothness.parseOrNull(smoothnessValue);
     }
 
     /**

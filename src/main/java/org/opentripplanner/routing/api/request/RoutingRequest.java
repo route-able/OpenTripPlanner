@@ -32,6 +32,7 @@ import org.opentripplanner.model.FeedScopedId;
 import org.opentripplanner.model.GenericLocation;
 import org.opentripplanner.model.Route;
 import org.opentripplanner.model.TransitMode;
+import org.opentripplanner.openstreetmap.OSMSmoothness;
 import org.opentripplanner.routing.algorithm.transferoptimization.api.TransferOptimizationParameters;
 import org.opentripplanner.routing.core.BicycleOptimizeType;
 import org.opentripplanner.routing.core.intersection_model.IntersectionTraversalCostModel;
@@ -430,6 +431,8 @@ public class RoutingRequest implements AutoCloseable, Cloneable, Serializable {
     public double waitAtBeginningFactor = 0.4;
 
     public TObjectDoubleMap<String> surfaceReluctances = new TObjectDoubleHashMap<>(0);
+
+    public OSMSmoothness minSmoothness;
 
     /**
      * This prevents unnecessary transfers by adding a cost for boarding a vehicle. This is in
@@ -1329,6 +1332,14 @@ public class RoutingRequest implements AutoCloseable, Cloneable, Serializable {
     public void setWaitAtBeginningFactor(double waitAtBeginningFactor) {
         if (waitAtBeginningFactor > 0) {
             this.waitAtBeginningFactor = waitAtBeginningFactor;
+        }
+    }
+
+    public void setMinSmoothness(String minSmoothness) throws ParameterException {
+        try {
+            this.minSmoothness = OSMSmoothness.parseFrom(minSmoothness);
+        } catch (IllegalArgumentException ex) {
+            throw new ParameterException(Message.BOGUS_PARAMETER);
         }
     }
 

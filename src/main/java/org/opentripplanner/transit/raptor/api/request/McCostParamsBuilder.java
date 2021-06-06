@@ -1,6 +1,8 @@
 package org.opentripplanner.transit.raptor.api.request;
 
 
+import org.opentripplanner.openstreetmap.OSMSmoothness;
+
 import gnu.trove.map.TObjectDoubleMap;
 
 /**
@@ -14,6 +16,7 @@ public class McCostParamsBuilder {
     private double walkReluctanceFactor;
     private double waitReluctanceFactor;
     private TObjectDoubleMap<String> surfaceReluctanceFactors;
+    private OSMSmoothness minSmoothness;
 
 
     McCostParamsBuilder(McCostParams defaults) {
@@ -23,6 +26,7 @@ public class McCostParamsBuilder {
         this.walkReluctanceFactor = defaults.walkReluctanceFactor();
         this.waitReluctanceFactor = defaults.waitReluctanceFactor();
         this.surfaceReluctanceFactors = defaults.surfaceReluctanceFactors();
+        this.minSmoothness = defaults.minSmoothness();
     }
 
     public int boardCost() {
@@ -76,6 +80,15 @@ public class McCostParamsBuilder {
 
     public McCostParamsBuilder surfaceReluctanceFactors(TObjectDoubleMap<String> surfaceReluctanceFactors) {
         this.surfaceReluctanceFactors = surfaceReluctanceFactors;
+        return this;
+    }
+
+    public OSMSmoothness minSmoothness() {
+        return minSmoothness;
+    }
+
+    public McCostParamsBuilder minSmoothness(OSMSmoothness minSmoothness) {
+        this.minSmoothness = minSmoothness;
         return this;
     }
 }

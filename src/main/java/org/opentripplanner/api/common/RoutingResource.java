@@ -200,6 +200,14 @@ public abstract class RoutingResource {
     @QueryParam("surfaceReluctances")
     protected String surfaceReluctances;
 
+    /**
+     * What is the minimum tolerable smoothness? The allowable smoothness values can be found at
+     * https://wiki.openstreetmap.org/wiki/Key:smoothness. The roughest values are considered
+     * the "least" smooth (the ordering is in reverse order from the wiki page - impassable -> excellent).
+     */
+    @QueryParam("minSmoothness")
+    protected String minSmoothness;
+
     /** The user's walking speed in meters/second. Defaults to approximately 3 MPH. */
     @QueryParam("walkSpeed")
     protected Double walkSpeed;
@@ -711,6 +719,9 @@ public abstract class RoutingResource {
 
         if (surfaceReluctances != null)
             request.setSurfaceReluctances(surfaceReluctances);
+
+        if (minSmoothness != null)
+            request.setMinSmoothness(minSmoothness);
 
         if (walkSpeed != null)
             request.walkSpeed = walkSpeed;

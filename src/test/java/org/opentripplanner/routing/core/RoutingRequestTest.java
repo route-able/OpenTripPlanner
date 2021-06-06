@@ -2,10 +2,12 @@ package org.opentripplanner.routing.core;
 
 import org.junit.Test;
 import org.opentripplanner.api.common.ParameterException;
+import org.opentripplanner.graph_builder.GraphBuilder;
 import org.opentripplanner.model.Agency;
 import org.opentripplanner.model.FeedScopedId;
 import org.opentripplanner.model.GenericLocation;
 import org.opentripplanner.model.Route;
+import org.opentripplanner.openstreetmap.OSMSmoothness;
 import org.opentripplanner.routing.api.request.RoutingRequest;
 
 import java.util.List;
@@ -98,6 +100,24 @@ public class RoutingRequestTest {
             if(tc.prefAgency || tc.prefRoute) {
                 assertEquals(tc.toString(), 0, routingRequest.preferencesPenaltyForRoute(otherRoute));
             }
+        }
+    }
+
+    @Test
+    public void testSmoothness() {
+        try (RoutingRequest req = new RoutingRequest()) {
+            try {
+                req.setMinSmoothness("unknown");
+                fail();
+            } catch (ParameterException expected) {}
+
+            try {
+                req.setMinSmoothness("excellent");
+            } catch (ParameterException e) {
+                fail();
+            }
+
+            assertTrue(OSMSmoothness.EXCELLENT.compareTo(OSMSmoothness.BAD) > 1);
         }
     }
 
