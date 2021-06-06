@@ -1175,7 +1175,7 @@ public class OpenStreetMapModule implements GraphBuilderModule {
                 street.setHasBogusName(true);
             }
             street.setStairs(steps);
-            Optional.ofNullable(way.getSurface()).ifPresent(street::setSurface);
+            Optional.ofNullable(way.getFootpathSurface()).ifPresent(street::setSurface);
 
             /* TODO: This should probably generalized somehow? */
             if (!ignoreWheelchairAccessibility

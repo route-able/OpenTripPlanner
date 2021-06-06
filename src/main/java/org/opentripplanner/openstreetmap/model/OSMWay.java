@@ -1,5 +1,7 @@
 package org.opentripplanner.openstreetmap.model;
 
+import java.util.Set;
+
 import gnu.trove.list.TLongList;
 import gnu.trove.list.array.TLongArrayList;
 
@@ -127,7 +129,7 @@ public class OSMWay extends OSMWithTags {
     }
 
     /**
-     * The possible surface values' documentation can be <a
+     * Returns the "surface" tag of this OSM way. The possible surface values' documentation can be <a
      * href="https://wiki.openstreetmap.org/wiki/Key:surface">seen here</a>. And an enumeration of
      * all existing values <a href="https://taginfo.openstreetmap.org/keys/surface#values">can be
      * found here</a>.
@@ -136,4 +138,27 @@ public class OSMWay extends OSMWithTags {
     public String getSurface() {
         return getTag("surface");
     }
+
+    public boolean isFootpath() {
+        String highwayTag = getTag("highway");
+        if (highwayTag == null) {
+            highwayTag = "";
+        }
+        return Set.of("footway", "pedestrian", "path", "track").contains(highwayTag);
+    }
+
+    /**
+     * Returns the "surface" of this OSM way <b>ONLY if it is a footpath</b>. The possible surface values' documentation can be <a
+     * href="https://wiki.openstreetmap.org/wiki/Key:surface">seen here</a>. And an enumeration of
+     * all existing values <a href="https://taginfo.openstreetmap.org/keys/surface#values">can be
+     * found here</a>.
+     * @return The value of the {@code surface} tag of this way.
+     */
+    public String getFootpathSurface() {
+        if (isFootpath()) {
+            return getSurface();
+        }
+        return null;
+    }
+
 }
